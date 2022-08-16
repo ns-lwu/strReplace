@@ -80,13 +80,15 @@ int main(){
 // grown old in society and at court. He went up to Anna Pávlovna,kissed her hand, presenting\
 //  to her his bald, scented, and shining head,and complacently seated himself on the sofa.";
 
+    // Copy this string for test
     // std::string longStr ="“Heavens! what a virulent attack!” replied the prince, not in theleast disconcerted by this reception. He had just entered, wearing anembroidered court uniform, knee breeches, and shoes, and had stars onhis breast and a serene expression on his flat face. He spoke in thatrefined French in which our grandfathers not only spoke but thought, andwith the gentle, patronizing intonation natural to a man of importancewho had grown old in society and at court. He went up to Anna Pávlovna,kissed her hand, presenting to her his bald, scented, and shining head,and complacently seated himself on the sofa.";
     std::string longStr;
+    std::cout << "Enter your test string to stdin\n";
     std::getline(std::cin, longStr);
 
     static std::string output;
-    std::string insertChar = "a";
-    std::string outputChar = "\a";
+    std::string insertChar = "e";
+    std::string outputChar = "\e";
     int iteration = 5;
     {
     using unit = std::chrono::nanoseconds;
