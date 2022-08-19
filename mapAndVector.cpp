@@ -89,10 +89,10 @@ int main(){
         auto finish = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<unit>(finish - start).count();
         output += lstr;
-        std::cout << "stringIterationReplace() long " << duration << "\n";
+        std::cout << "stringIterationReplaceVec() long string " << duration << "\n";
         totalDuration += duration;
     }
-    std::cout << "stringIterationReplace() long  string took total "
+    std::cout << "stringIterationReplaceVec() long string took total "
               << totalDuration
               << " nanoseconds\n";
     totalDuration = 0;
@@ -103,10 +103,10 @@ int main(){
         auto finish = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<unit>(finish - start).count();
         output += sstr;
-        std::cout << "stringIterationReplace() small " << duration << "\n";
+        std::cout << "stringIterationReplaceVec() small string " << duration << "\n";
         totalDuration += duration;
     }
-    std::cout << "stringIterationReplace() small string took total "
+    std::cout << "stringIterationReplaceVec() small string took total "
               << totalDuration
               << " nanoseconds\n";
     }
@@ -122,10 +122,10 @@ int main(){
         auto finish = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<unit>(finish - start).count();
         output += lstr;
-        std::cout << "stringIterationReplace() long " << duration << "\n";
+        std::cout << "stringIterationReplaceMap() long " << duration << "\n";
         totalDuration += duration;
     }
-    std::cout << "stringIterationReplace() long  string took total "
+    std::cout << "stringIterationReplaceMap() long  string took total "
               << totalDuration
               << " nanoseconds\n";
     totalDuration = 0;
