@@ -17,7 +17,7 @@ void smallStringReplace(std::string& str,
 {
   std::string::size_type pos = 0u;
   while((pos = str.find(oldStr, pos)) != std::string::npos){
-     str.replace(pos, oldStr.length(), newStr);
+     str.replace(pos, oldStr.length(), newStr);// O(X * L)
      pos += newStr.length();
   }
 }
@@ -36,7 +36,7 @@ void stringStreamReplace(
         pos = s.find(oldStr, pos);
         if (pos == std::string::npos)
             break;
-        oss << s.substr(prevPos, pos - prevPos);
+        oss << s.substr(prevPos, pos - prevPos); // O(L)
         oss << newStr;
         pos += oldStr.size();
     }
@@ -69,26 +69,14 @@ int main(){
     const char* longStr = "“Heavens! what a virulent attack!” replied the prince, not in theleast disconcerted by this reception. He had just entered, wearing anembroidered court uniform, knee breeches, and shoes, and had stars onhis breast and a serene expression on his flat face. He spoke in thatrefined French in which our grandfathers not only spoke but thought, andwith the gentle, patronizing intonation natural to a man of importancewho had grown old in society and at court. He went up to Anna Pávlovna,kissed her hand, presenting to her his bald, scented, and shining head,and complacently seated himself on the sofa.";
     static std::string output;
     std::string insertChar = "\r";
-    int iteration = 1;
+    int insertInterval = 1;
+    int iteration = 2;
+    int insertStart = rand()*5;
     {
     using unit = std::chrono::nanoseconds;
     auto totalDuration = 0;
     for(int i = 0; i < iteration; i++){
-        std::string sstr = insertReplacingChars(smallStr, insertChar,  rand()*5+i, 7);
-        auto start = std::chrono::high_resolution_clock::now();
-        smallStringReplace(sstr, "\r", "\\r");
-        auto finish = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<unit>(finish - start).count();
-        output += sstr;
-        std::cout << "smallStringReplace() small " << duration << "\n";
-        totalDuration += duration;
-    }
-    std::cout << "smallStringReplace() small string took total "
-              << totalDuration
-              << " nanoseconds\n";
-    totalDuration = 0;
-    for(int i = 0; i < iteration; i++){
-        std::string lstr = insertReplacingChars(longStr, insertChar,  rand()*5+i, 7);
+        std::string lstr = insertReplacingChars(longStr, insertChar,  insertStart + i, insertInterval);
         auto start = std::chrono::high_resolution_clock::now();
         smallStringReplace(lstr, "\r", "\\r");
         auto finish = std::chrono::high_resolution_clock::now();
@@ -100,27 +88,29 @@ int main(){
     std::cout << "smallStringReplace() long  string took total "
               << totalDuration
               << " nanoseconds\n";
+
+    totalDuration = 0;
+    for(int i = 0; i < iteration; i++){
+        std::string sstr = insertReplacingChars(smallStr, insertChar, insertStart + i , insertInterval);
+        auto start = std::chrono::high_resolution_clock::now();
+        smallStringReplace(sstr, "\r", "\\r");
+        auto finish = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<unit>(finish - start).count();
+        output += sstr;
+        std::cout << "smallStringReplace() small " << duration << "\n";
+        totalDuration += duration;
+    }
+    std::cout << "smallStringReplace() small string took total "
+              << totalDuration
+              << " nanoseconds\n";
     }
     {
 
     using unit = std::chrono::nanoseconds;
     auto totalDuration = 0;
+
     for(int i = 0; i < iteration; i++){
-        std::string sstr = insertReplacingChars(smallStr, insertChar,  rand()*5+i, 7);
-        auto start = std::chrono::high_resolution_clock::now();
-        stringStreamReplace(sstr, "\r", "\\r");
-        auto finish = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<unit>(finish - start).count();
-        output += sstr;
-        std::cout << "stringStreamReplace() small " << duration << "\n";
-        totalDuration += duration;
-    }
-    std::cout << "stringStreamReplace() small string took total "
-              << totalDuration
-              << " nanoseconds\n";
-    totalDuration = 0;
-    for(int i = 0; i < iteration; i++){
-        std::string lstr = insertReplacingChars(longStr, insertChar,  rand()*5+i, 7);
+        std::string lstr = insertReplacingChars(longStr, insertChar,  insertStart + i, insertInterval);
         auto start = std::chrono::high_resolution_clock::now();
         stringStreamReplace(lstr, "\r", "\\r");
         auto finish = std::chrono::high_resolution_clock::now();
@@ -132,5 +122,20 @@ int main(){
     std::cout << "stringStreamReplace() long  string took total "
               << totalDuration
               << " nanoseconds\n";
+    totalDuration = 0;
+    for(int i = 0; i < iteration; i++){
+        std::string sstr = insertReplacingChars(smallStr, insertChar,  insertStart + i, insertInterval);
+        auto start = std::chrono::high_resolution_clock::now();
+        stringStreamReplace(sstr, "\r", "\\r");
+        auto finish = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<unit>(finish - start).count();
+        output += sstr;
+        std::cout << "stringStreamReplace() small " << duration << "\n";
+        totalDuration += duration;
     }
+    std::cout << "stringStreamReplace() small string took total "
+              << totalDuration
+              << " nanoseconds\n";
+    }
+
 }
